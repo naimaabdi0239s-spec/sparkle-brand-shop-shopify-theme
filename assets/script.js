@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
   bagToggle?.addEventListener('click', openDrawer);
   closeButton?.addEventListener('click', closeDrawer);
 
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (bagDrawer && !bagDrawer.hidden && !target.closest('.store-bag') && !target.closest('.bag-button')) {
+      closeDrawer();
+    }
+  });
+
   const formatMoney = (cents) => {
     const dollars = cents / 100;
     return new Intl.NumberFormat('en-US', {

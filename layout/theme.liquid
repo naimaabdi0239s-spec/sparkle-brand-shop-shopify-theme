@@ -12,6 +12,8 @@
     {{ 'style.css' | asset_url | stylesheet_tag }}
   </head>
   <body class="template-{{ template.name }}">
+    {% section 'announcement-bar' %}
+
     <div class="page-shell">
       <header class="site-header">
         <div class="nav-inner">
@@ -27,9 +29,9 @@
             {% endif %}
           </nav>
 
-          <a class="brand" href="{{ routes.root_url }}" aria-label="Home">
+          <a class="brand" href="{{ routes.root_url }}" aria-label="Brand home">
             {% if settings.logo != blank %}
-              <img src="{{ settings.logo | image_url: width: 350 }}" alt="Brand" loading="eager">
+              <img src="{{ settings.logo | image_url: width: 350 }}" alt="Brand logo" loading="eager">
             {% else %}
               <span class="brand-wordmark">A Gabrielle</span>
             {% endif %}
@@ -66,7 +68,7 @@
             <article class="bag-item" data-line-id="{{ item.key }}">
               <div class="bag-item-photo">
                 {% if item.image %}
-                  <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.product.title | escape }}" loading="lazy">
+                  <img src="{{ item.image | image_url: width: 220 }}" alt="{{ item.product.title | escape }}" loading="lazy">
                 {% endif %}
               </div>
               <div class="bag-item-info">

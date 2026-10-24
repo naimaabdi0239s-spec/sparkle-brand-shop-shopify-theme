@@ -24,12 +24,13 @@
       <h1>{{ product.title }}</h1>
       <p class="product-subtitle">{% if is_oil %}Luxe Rose-Infused Body Oil{% else %}Hydrating Whipped Body Butter{% endif %}</p>
       <p class="detail-price">{{ current_variant.price | money }}</p>
+
       {% if product.description %}
         <p>{{ product.description | strip_html }}</p>
       {% endif %}
 
       {% form 'product', product, class: 'product-form', data-product-form: true %}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
 
         <fieldset class="variants">
           <legend>Size</legend>
@@ -61,15 +62,18 @@
           <summary>{% if is_oil %}Luxe Full Body Glow{% else %}Full Body Glow{% endif %}</summary>
           <p>{{ product.description | strip_html }}</p>
         </details>
+
         <details>
           <summary>How to Use</summary>
           <p>{% if is_oil %}For an all-over glow, gently massage onto your body. Apply after a shower while skin is still slightly damp for extra hydration.{% else %}Gently massage all over your body and let the butter melt into your skin. Reapply to areas that need extra hydration.{% endif %}</p>
         </details>
+
         <details>
           <summary>Ingredients & Allergy Note</summary>
           <p><strong>Ingredients:</strong> {% if product.metafields.custom.ingredients != blank %}{{ product.metafields.custom.ingredients }}{% else %}Shea butter, almond oil, avocado oil, castor oil, vitamin E{% endif %}</p>
           <p class="allergy-warning"><strong>Allergy note:</strong> Contains almond oil (tree nut).</p>
         </details>
+
         <details>
           <summary>Shipping & Exchanges</summary>
           <p>Every order is handmade, so please allow 5–7 business days for your order to be prepared before it ships. Once it ships, you’ll receive an email with tracking information.</p>
