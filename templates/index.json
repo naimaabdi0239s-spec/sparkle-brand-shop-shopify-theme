@@ -1,0 +1,61 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "A Gabrielle · A little luxury for your skin",
+        "heading": "Meet your new daily ritual.",
+        "text": "Handcrafted body butters and body oils made to bring a little more care, comfort, and glow to your everyday routine.",
+        "primary_label": "Shop the Collection",
+        "primary_link": "/collections/all",
+        "secondary_label": "Discover Our Story",
+        "secondary_link": "/pages/about",
+        "caption": "Made with care. Made for you."
+      }
+    },
+    "butters": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Rich in care",
+        "heading": "Your everyday, a little softer.",
+        "collection": "all",
+        "limit": 4,
+        "show_view_all": true,
+        "view_all_label": "Shop body butters",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "oils": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Luxe glow",
+        "heading": "Rose-infused hydration for every ritual.",
+        "collection": "all",
+        "limit": 4,
+        "show_view_all": true,
+        "view_all_label": "Shop body oils",
+        "view_all_link": "/collections/all"
+      }
+    },
+    "story": {
+      "type": "story",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "butters",
+    "oils",
+    "story",
+    "reviews",
+    "newsletter"
+  ]
+}

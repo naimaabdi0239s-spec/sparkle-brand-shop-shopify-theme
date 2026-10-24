@@ -1,0 +1,48 @@
+<footer class="site-footer">
+  <div class="footer-main">
+    <div>
+      <a href="{{ routes.root_url }}" class="footer-brand">A Gabrielle</a>
+      <p>Handcrafted body butters and oils made to bring daily care, comfort, and glow.</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Explore</h3>
+      {% if linklists.main-menu.links != blank %}
+        <ul>
+          {% for link in linklists.main-menu.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <ul>
+          <li><a href="/collections/all">Shop</a></li>
+          <li><a href="/pages/about">About</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+      {% endif %}
+    </div>
+
+    <div class="footer-links">
+      <h3>Support</h3>
+      <ul>
+        <li><a href="/pages/shipping">Shipping</a></li>
+        <li><a href="/pages/returns">Returns</a></li>
+        <li><a href="/pages/privacy-policy">Privacy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h3>Connect</h3>
+      <div class="social-links">
+        <a href="https://www.instagram.com/agabrielle.co" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/share/1ZTY6rBUWz/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://www.tiktok.com/@a.gabrielleskin" target="_blank" rel="noopener noreferrer">TikTok</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© {{ 'now' | date: '%Y' }} A Gabrielle</span>
+    <span>Made with care.</span>
+  </div>
+</footer>

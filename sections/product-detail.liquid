@@ -1,0 +1,81 @@
+<section class="section product-detail">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span>/</span>
+    <a href="/collections/all">Shop</a>
+    <span>/</span>
+    <span>{{ product.title }}</span>
+  </nav>
+
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  {% if current_variant == blank %}
+    {% assign current_variant = product.variants.first %}
+  {% endif %}
+
+  {% assign is_oil = product.type == 'Oil' or product.tags contains 'oil' %}
+
+  <div class="product-detail-grid">
+    {% if product.featured_image %}
+      <img class="detail-photo" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title | escape }}" fetchpriority="high" decoding="async">
+    {% endif %}
+
+    <div class="detail-copy">
+      <p class="eyebrow">{% if is_oil %}The finishing touch{% else %}Rich in care{% endif %}</p>
+      <h1>{{ product.title }}</h1>
+      <p class="product-subtitle">{% if is_oil %}Luxe Rose-Infused Body Oil{% else %}Hydrating Whipped Body Butter{% endif %}</p>
+      <p class="detail-price">{{ current_variant.price | money }}</p>
+      {% if product.description %}
+        <p>{{ product.description | strip_html }}</p>
+      {% endif %}
+
+      {% form 'product', product, class: 'product-form', data-product-form: true %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        <fieldset class="variants">
+          <legend>Size</legend>
+          {% for variant in product.variants %}
+            <label class="btn btn-outline {% if variant.id == current_variant.id %}variant-selected{% endif %}">
+              <input type="radio" name="id" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %}>
+              <span>{{ variant.title }} · {{ variant.price | money }}</span>
+            </label>
+          {% endfor %}
+        </fieldset>
+
+        <div class="add-row">
+          <div class="quantity">
+            <button type="button" class="qty-btn qty-minus" aria-label="Decrease quantity">−</button>
+            <input type="number" name="quantity" value="1" min="1" max="99" aria-label="Quantity">
+            <button type="button" class="qty-btn qty-plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="submit" class="btn btn-default">Add to bag <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h12m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      {% endform %}
+
+      <p class="checkout-note">
+        Handmade · Please allow 5–7 business days before shipping.<br>
+        U.S. shipping only. Free shipping on orders over $75.
+      </p>
+
+      <div class="product-accordion-group">
+        <details open>
+          <summary>{% if is_oil %}Luxe Full Body Glow{% else %}Full Body Glow{% endif %}</summary>
+          <p>{{ product.description | strip_html }}</p>
+        </details>
+        <details>
+          <summary>How to Use</summary>
+          <p>{% if is_oil %}For an all-over glow, gently massage onto your body. Apply after a shower while skin is still slightly damp for extra hydration.{% else %}Gently massage all over your body and let the butter melt into your skin. Reapply to areas that need extra hydration.{% endif %}</p>
+        </details>
+        <details>
+          <summary>Ingredients & Allergy Note</summary>
+          <p><strong>Ingredients:</strong> {% if product.metafields.custom.ingredients != blank %}{{ product.metafields.custom.ingredients }}{% else %}Shea butter, almond oil, avocado oil, castor oil, vitamin E{% endif %}</p>
+          <p class="allergy-warning"><strong>Allergy note:</strong> Contains almond oil (tree nut).</p>
+        </details>
+        <details>
+          <summary>Shipping & Exchanges</summary>
+          <p>Every order is handmade, so please allow 5–7 business days for your order to be prepared before it ships. Once it ships, you’ll receive an email with tracking information.</p>
+          <p>All sales are final. Damaged or incorrect orders must be reported within 7 days of delivery with your order number and a photo.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>

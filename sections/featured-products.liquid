@@ -1,0 +1,54 @@
+<section class="section product-section">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+  </div>
+
+  {% assign collection_handle = section.settings.collection %}
+  {% assign current_collection = collections[collection_handle] %}
+  {% if current_collection == blank %}
+    {% assign current_collection = collections.all %}
+  {% endif %}
+
+  <div class="product-grid">
+    {% for product in current_collection.products limit: section.settings.limit %}
+      <a class="product-card" href="{{ product.url }}">
+        <div class="product-photo">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.title | escape }}" loading="lazy">
+          {% endif %}
+        </div>
+        <div class="product-name">
+          <h3>{{ product.title }}</h3>
+          <span>{{ product.price | money }}</span>
+        </div>
+        {% if product.description %}
+          <p class="product-description">{{ product.description | strip_html | truncate: 110 }}</p>
+        {% endif %}
+      </a>
+    {% endfor %}
+  </div>
+
+  {% if section.settings.show_view_all and section.settings.view_all_link != blank %}
+    <div class="section-actions">
+      <a href="{{ section.settings.view_all_link }}" class="btn btn-default">{{ section.settings.view_all_label }}</a>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Featured products",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Rich in care" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your everyday, a little softer." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show view all button", "default": true },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "Shop the Collection" },
+    { "type": "url", "id": "view_all_link", "label": "View all link" }
+  ]
+}
+{% endschema %}

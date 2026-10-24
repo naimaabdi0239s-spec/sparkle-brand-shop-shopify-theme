@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#e6dcc0">
+    {{ content_for_header }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="template-{{ template.name }}">
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="nav-inner">
+          <nav class="nav-left" aria-label="Main navigation">
+            {% if linklists.main-menu.links != blank %}
+              {% for link in linklists.main-menu.links %}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              {% endfor %}
+            {% else %}
+              <a href="/collections/all">Shop</a>
+              <a href="/pages/about">About</a>
+              <a href="/pages/contact">Contact</a>
+            {% endif %}
+          </nav>
+
+          <a class="brand" href="{{ routes.root_url }}" aria-label="Home">
+            {% if settings.logo != blank %}
+              <img src="{{ settings.logo | image_url: width: 350 }}" alt="Brand" loading="eager">
+            {% else %}
+              <span class="brand-wordmark">A Gabrielle</span>
+            {% endif %}
+          </a>
+
+          <div class="nav-right">
+            <a href="/collections/all">Shop</a>
+            <a href="/pages/about">About</a>
+            <a href="/pages/contact">Contact</a>
+            <button class="bag-button" type="button" aria-label="Open bag" aria-controls="cart-drawer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M7 8V7a5 5 0 0 1 10 0v1m-11 0h12l-1.2 10.2A2 2 0 0 1 15.8 20H8.2a2 2 0 0 1-2-.8L5 8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="bag-count">{{ cart.item_count }}</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {{ content_for_layout }}
+
+      {% section 'footer' %}
+    </div>
+
+    <aside id="cart-drawer" class="store-bag" aria-hidden="true" hidden>
+      <div class="bag-heading">
+        <h2>Your bag</h2>
+        <button class="cart-close" type="button" aria-label="Close bag">×</button>
+      </div>
+
+      <div class="cart-items">
+        {% if cart.item_count > 0 %}
+          {% for item in cart.items %}
+            <article class="bag-item" data-line-id="{{ item.key }}">
+              <div class="bag-item-photo">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.product.title | escape }}" loading="lazy">
+                {% endif %}
+              </div>
+              <div class="bag-item-info">
+                <div class="bag-item-meta">
+                  <h3>{{ item.product.title }}</h3>
+                  <span>{{ item.final_line_price | money }}</span>
+                </div>
+                <div class="bag-item-actions">
+                  <div class="quantity quantity-inline">
+                    <button type="button" class="qty-btn" data-action="decrease" data-line="{{ item.key }}" aria-label="Decrease quantity">−</button>
+                    <span class="qty-value">{{ item.quantity }}</span>
+                    <button type="button" class="qty-btn" data-action="increase" data-line="{{ item.key }}" aria-label="Increase quantity">+</button>
+                  </div>
+                  <button type="button" class="remove-button" data-line="{{ item.key }}">Remove</button>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        {% else %}
+          <p class="cart-empty">Your bag is empty.</p>
+        {% endif %}
+      </div>
+
+      <div class="cart-summary">
+        <div class="cart-row"><span>Items</span><strong>{{ cart.item_count }}</strong></div>
+        <div class="cart-row"><span>Total</span><strong>{{ cart.total_price | money }}</strong></div>
+        <a href="/cart" class="btn btn-default cart-view-link">View bag</a>
+        <a href="/checkout" class="btn btn-default">Checkout</a>
+      </div>
+    </aside>
+
+    {{ 'script.js' | asset_url | script_tag }}
+  </body>
+</html>
